@@ -83,7 +83,7 @@ public class LdapAuthenticator extends BaseAuthenticator
         Data searchdn = getSearcherManager().getData(inAReq.getCatalogId(), "catalogsettings", "ldapserversearchdn");
 
         //Make a string from the result or null
-        String searchDN = ( searchdn.get("value") != null ) ?  searchdn.get("value") : null;
+        String searchDN = ( searchdn != null ) ?  searchdn.get("value") : null;
 
         //log.info("New Ldap Search DN " + searchDN);
 
@@ -91,7 +91,7 @@ public class LdapAuthenticator extends BaseAuthenticator
         Data searchfield = getSearcherManager().getData(inAReq.getCatalogId(), "catalogsettings", "ldapserversearchfield");
 
         //Make a string from the result or null
-        String searchField = ( searchfield.get("value") != null ) ?  searchfield.get("value") : null;
+        String searchField = ( searchfield != null ) ?  searchfield.get("value") : null;
 
 		//log.info("New Ldap Search Field " + searchField);
 
@@ -109,7 +109,7 @@ public class LdapAuthenticator extends BaseAuthenticator
 			if(searchDN != null) {
 				ldap.setDN(searchDN);  //Is setdomain the same?, authenticate suggests not.
 				ldap.setDomain(searchDN);
-				log.info("Search DN Set");
+				//log.info("Search DN Set");
 			}
 
 			//Search LDAP For the results
