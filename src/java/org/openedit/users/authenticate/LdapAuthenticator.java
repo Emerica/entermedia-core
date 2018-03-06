@@ -11,12 +11,12 @@ import javax.naming.NamingException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openedit.Data;
-import org.openedit.data.Searcher;
 import org.openedit.data.SearcherManager;
 import org.openedit.hittracker.HitTracker;
 import org.openedit.users.User;
 import org.openedit.users.UserManagerException;
 import org.openedit.util.LDAP;
+import org.openedit.util.NaiveTrustManager;
 
 public class LdapAuthenticator extends BaseAuthenticator
 {
@@ -131,28 +131,26 @@ public class LdapAuthenticator extends BaseAuthenticator
 			//log.info("Auth set to simple");
 			//Authenticate will take care of resetting the DN
 
-        }
+        	}
 
-        //Get the prefix for ldap binding
-        Data prefix = getSearcherManager().getData(inAReq.getCatalogId(), "catalogsettings", "ldapserverprefix");
+	        //Get the prefix for ldap binding
+        	Data prefix = getSearcherManager().getData(inAReq.getCatalogId(), "catalogsettings", "ldapserverprefix");
 
 		//Check the prefix and make a string
 		String sprefix  = ( prefix != null ) ? prefix.get("value") : null;
 
-        //log.info("New Ldap Prefix Field " + sprefix);
+	        //log.info("New Ldap Prefix Field " + sprefix);
 
 		//Check the post fix
-        Data postfix = getSearcherManager().getData(inAReq.getCatalogId(), "catalogsettings", "ldapserverpostfix");
-
-        //Check the postfix and make a string
+        	Data postfix = getSearcherManager().getData(inAReq.getCatalogId(), "catalogsettings", "ldapserverpostfix");
+        	//Check the postfix and make a string
 		String spostfix = ( postfix != null) ?  postfix.get("value") : null;
 
-        //log.info("New Ldap Postfix Field " + spostfix);
+	        //log.info("New Ldap Postfix Field " + spostfix);
 
 		//Authenticate with Ldap
+		//NaiveTrustManager.disableHttps();
 		ldap.authenticate(sprefix, inUsername, spostfix, inPassword);
-
-
 		//If we have a connection
 		if (ldap.connect())
 		{
