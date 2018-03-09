@@ -2608,6 +2608,15 @@ public abstract class BaseSearcher implements Searcher, DataFactory
 				}
 				result = Arrays.asList(values);
 			}
+			else if(detail.isDataType("objectarray"))
+			{
+				//do nothing
+				//if( values instanceof String)
+				//{
+					//if ((String) values).startsWith("{")
+				//}
+				continue;
+			}
 			else if (values != null && values.length > 0)
 			{
 				String val = values[0];
@@ -2719,10 +2728,17 @@ public abstract class BaseSearcher implements Searcher, DataFactory
 		else
 		{
 			Data data = (Data)createNewData();
-			data.setProperties(inHit.getProperties());
+			Map fields = inHit.getProperties();
+			fields = checkTypes(fields);
+			data.setProperties(fields);
 			data.setId(inHit.getId());
 			return data;
 		}
+	}
+
+	protected Map checkTypes(Map inFields)
+	{
+		return inFields;
 	}
 
 	public LockManager getLockManager()
